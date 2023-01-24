@@ -1,6 +1,4 @@
 ﻿using JHTest.DAL.Repositories;
-using Microsoft.Extensions.Hosting;
-using Tweetinvi;
 using Tweetinvi.Models.V2;
 
 namespace JHTest.BL.Services

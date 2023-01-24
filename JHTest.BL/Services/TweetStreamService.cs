@@ -1,5 +1,4 @@
-﻿using JHTest.DAL.Repositories;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Tweetinvi;
 
 

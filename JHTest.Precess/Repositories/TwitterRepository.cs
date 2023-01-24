@@ -9,19 +9,19 @@ namespace JHTest.DAL.Repositories
 {
     public class TwitterRepository : ITwitterRepository
     {
-        public Dictionary<string, TweetV2> Tweets { get; set; } = new();
-        private readonly Dictionary<string, int> HashtagCounts = new();
+        private Dictionary<string, TweetV2> _tweets { get; set; } = new();
+        private readonly Dictionary<string, int> _hashtagCounts = new();
 
         public int Count()
         {
-            return Tweets.Count;
+            return _tweets.Count;
         }
 
         public string[] GetTopHashtags(int count = 10)
         {
             if (count <= 0) throw new ArgumentOutOfRangeException(nameof(count));
 
-            return HashtagCounts
+            return _hashtagCounts
                 .OrderByDescending(x => x.Value)
                 .ThenBy(x => x.Key)
                 .Select(x => x.Key)
@@ -31,19 +31,19 @@ namespace JHTest.DAL.Repositories
 
         public void Add(TweetV2 tweet)
         {
-            if (Tweets.ContainsKey(tweet.Id)) return;
+            if (_tweets.ContainsKey(tweet.Id)) return;
 
-            Tweets.Add(tweet.Id, tweet);
+            _tweets.Add(tweet.Id, tweet);
 
             if (tweet.Entities?.Hashtags == null || tweet.Entities.Hashtags.Length == 0) return;
 
             foreach (var hashtag in tweet.Entities.Hashtags)
             {
                 var tag = hashtag.Tag;
-                if (HashtagCounts.ContainsKey(tag))
-                    HashtagCounts[tag] = HashtagCounts[tag] + 1;
+                if (_hashtagCounts.ContainsKey(tag))
+                    _hashtagCounts[tag] = _hashtagCounts[tag] + 1;
                 else
-                    HashtagCounts.Add(tag, 1);
+                    _hashtagCounts.Add(tag, 1);
             }
         }
 
